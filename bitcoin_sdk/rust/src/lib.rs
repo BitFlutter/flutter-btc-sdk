@@ -1,18 +1,13 @@
-use std::ffi::{CStr, CString};
+use std::ffi::CStr;
 use std::os::raw::c_char;
-use bitcoin::{Network, PrivateKey, PublicKey, Address};
-use bitcoin::secp256k1::{Secp256k1, SecretKey};
+use bitcoin::{Network, Address};
 use bip39::{Mnemonic, Language};
-use bip32::{ExtendedPrivateKey, DerivationPath};
 use std::str::FromStr;
-use rand::rngs::OsRng;
 
 mod wallet;
-mod transaction;
 mod utils;
 
 use wallet::*;
-use transaction::*;
 use utils::*;
 
 /// Estrutura para representar uma carteira Bitcoin
@@ -92,7 +87,7 @@ pub extern "C" fn validate_mnemonic(mnemonic_str: *const c_char) -> i32 {
         Err(_) => return 0,
     };
 
-    match Mnemonic::parse(mnemonic_string) {
+    match Mnemonic::parse_in_normalized(Language::English, mnemonic_string) {
         Ok(_) => 1,
         Err(_) => 0,
     }
@@ -124,6 +119,28 @@ pub extern "C" fn validate_address(address_str: *const c_char, network_type: i32
             }
         }
         Err(_) => 0,
+    }
+}
+
+/// Converte BTC para satoshis
+#[no_mangle]
+pub extern "C" fn btc_to_satoshis(btc: f64) -> u64 {
+    btc_to_satoshis_internal(btc)
+}
+
+/// Converte satoshis para BTC
+#[no_mangle]
+pub extern "C" fn satoshis_to_btc(satoshis: u64) -> f64 {
+    satoshis_to_btc_internal(satoshis)
+}
+
+/// Verifica se um valor em satoshis é válido
+#[no_mangle]
+pub extern "C" fn is_valid_amount(satoshis: u64) -> i32 {
+    if is_valid_amount_internal(satoshis) {
+        1
+    } else {
+        0
     }
 }
 

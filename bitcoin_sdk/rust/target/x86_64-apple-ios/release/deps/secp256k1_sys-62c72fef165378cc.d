@@ -1,0 +1,10 @@
+/Users/brandao/Desktop/flutter-bitcoin/flutter-btc-sdk/bitcoin_sdk/rust/target/x86_64-apple-ios/release/deps/secp256k1_sys-62c72fef165378cc.d: /Users/brandao/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/secp256k1-sys-0.8.2/src/lib.rs /Users/brandao/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/secp256k1-sys-0.8.2/src/macros.rs /Users/brandao/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/secp256k1-sys-0.8.2/src/types.rs /Users/brandao/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/secp256k1-sys-0.8.2/src/recovery.rs
+
+/Users/brandao/Desktop/flutter-bitcoin/flutter-btc-sdk/bitcoin_sdk/rust/target/x86_64-apple-ios/release/deps/libsecp256k1_sys-62c72fef165378cc.rlib: /Users/brandao/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/secp256k1-sys-0.8.2/src/lib.rs /Users/brandao/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/secp256k1-sys-0.8.2/src/macros.rs /Users/brandao/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/secp256k1-sys-0.8.2/src/types.rs /Users/brandao/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/secp256k1-sys-0.8.2/src/recovery.rs
+
+/Users/brandao/Desktop/flutter-bitcoin/flutter-btc-sdk/bitcoin_sdk/rust/target/x86_64-apple-ios/release/deps/libsecp256k1_sys-62c72fef165378cc.rmeta: /Users/brandao/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/secp256k1-sys-0.8.2/src/lib.rs /Users/brandao/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/secp256k1-sys-0.8.2/src/macros.rs /Users/brandao/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/secp256k1-sys-0.8.2/src/types.rs /Users/brandao/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/secp256k1-sys-0.8.2/src/recovery.rs
+
+/Users/brandao/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/secp256k1-sys-0.8.2/src/lib.rs:
+/Users/brandao/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/secp256k1-sys-0.8.2/src/macros.rs:
+/Users/brandao/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/secp256k1-sys-0.8.2/src/types.rs:
+/Users/brandao/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/secp256k1-sys-0.8.2/src/recovery.rs:

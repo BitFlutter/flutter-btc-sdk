@@ -8,10 +8,9 @@ name = "bitcoin_sdk_rust"
 crate-type = ["cdylib", "staticlib"]
 
 [dependencies]
-# Bitcoin core dependencies
-bitcoin = "0.31"
-secp256k1 = { version = "0.28", features = ["rand", "recovery"] }
-bip32 = "0.5"
+# Bitcoin core dependencies - usando versões mais estáveis
+bitcoin = "0.30"
+secp256k1 = { version = "0.27", features = ["rand", "recovery"] }
 bip39 = "2.0"
 
 # Crypto and utilities

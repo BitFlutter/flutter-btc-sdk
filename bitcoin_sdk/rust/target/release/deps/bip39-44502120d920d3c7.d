@@ -1,0 +1,11 @@
+/Users/brandao/Desktop/flutter-bitcoin/flutter-btc-sdk/bitcoin_sdk/rust/target/release/deps/bip39-44502120d920d3c7.d: /Users/brandao/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bip39-2.2.0/src/lib.rs /Users/brandao/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bip39-2.2.0/src/internal_macros.rs /Users/brandao/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bip39-2.2.0/src/language/mod.rs /Users/brandao/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bip39-2.2.0/src/language/english.rs /Users/brandao/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bip39-2.2.0/src/pbkdf2.rs
+
+/Users/brandao/Desktop/flutter-bitcoin/flutter-btc-sdk/bitcoin_sdk/rust/target/release/deps/libbip39-44502120d920d3c7.rlib: /Users/brandao/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bip39-2.2.0/src/lib.rs /Users/brandao/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bip39-2.2.0/src/internal_macros.rs /Users/brandao/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bip39-2.2.0/src/language/mod.rs /Users/brandao/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bip39-2.2.0/src/language/english.rs /Users/brandao/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bip39-2.2.0/src/pbkdf2.rs
+
+/Users/brandao/Desktop/flutter-bitcoin/flutter-btc-sdk/bitcoin_sdk/rust/target/release/deps/libbip39-44502120d920d3c7.rmeta: /Users/brandao/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bip39-2.2.0/src/lib.rs /Users/brandao/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bip39-2.2.0/src/internal_macros.rs /Users/brandao/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bip39-2.2.0/src/language/mod.rs /Users/brandao/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bip39-2.2.0/src/language/english.rs /Users/brandao/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bip39-2.2.0/src/pbkdf2.rs
+
+/Users/brandao/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bip39-2.2.0/src/lib.rs:
+/Users/brandao/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bip39-2.2.0/src/internal_macros.rs:
+/Users/brandao/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bip39-2.2.0/src/language/mod.rs:
+/Users/brandao/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bip39-2.2.0/src/language/english.rs:
+/Users/brandao/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bip39-2.2.0/src/pbkdf2.rs:

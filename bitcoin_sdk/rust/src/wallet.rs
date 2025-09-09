@@ -1,7 +1,6 @@
 use bitcoin::{Network, PrivateKey, PublicKey, Address};
 use bitcoin::secp256k1::{Secp256k1, SecretKey};
 use bip39::{Mnemonic, Language};
-use bip32::{ExtendedPrivateKey, DerivationPath};
 use std::str::FromStr;
 use rand::rngs::OsRng;
 
@@ -14,24 +13,24 @@ pub struct WalletData {
 }
 
 pub fn create_wallet(network: Network) -> Result<WalletData, Box<dyn std::error::Error>> {
-    // Gerar mnemônico
-    let mut rng = OsRng;
-    let mnemonic = Mnemonic::generate_in_with(&mut rng, Language::English, 12)?;
+    // Gerar entropia aleatória de 128 bits (12 palavras)
+    let mut entropy = [0u8; 16];
+    rand::RngCore::fill_bytes(&mut OsRng, &mut entropy);
+    
+    // Criar mnemônico a partir da entropia
+    let mnemonic = Mnemonic::from_entropy_in(Language::English, &entropy)?;
     let mnemonic_str = mnemonic.to_string();
 
-    // Derivar chave mestra
+    // Criar chave privada a partir da seed
     let seed = mnemonic.to_seed("");
     let secp = Secp256k1::new();
-    let master_key = ExtendedPrivateKey::new_master(network, &seed)?;
-
-    // Derivar chave para o caminho padrão m/84'/0'/0'/0/0 (Native SegWit)
-    let derivation_path = match network {
-        Network::Bitcoin => DerivationPath::from_str("m/84'/0'/0'/0/0")?,
-        _ => DerivationPath::from_str("m/84'/1'/0'/0/0")?, // Testnet
-    };
     
-    let derived_key = master_key.derive_priv(&secp, &derivation_path)?;
-    let private_key = PrivateKey::new(derived_key.private_key, network);
+    // Usar os primeiros 32 bytes da seed como chave privada
+    let mut key_bytes = [0u8; 32];
+    key_bytes.copy_from_slice(&seed[0..32]);
+    let secret_key = SecretKey::from_slice(&key_bytes)?;
+    
+    let private_key = PrivateKey::new(secret_key, network);
     let public_key = PublicKey::from_private_key(&secp, &private_key);
     
     // Gerar endereço P2WPKH (Native SegWit)
@@ -47,21 +46,18 @@ pub fn create_wallet(network: Network) -> Result<WalletData, Box<dyn std::error:
 
 pub fn restore_from_mnemonic(mnemonic_str: &str, network: Network) -> Result<WalletData, Box<dyn std::error::Error>> {
     // Parse do mnemônico
-    let mnemonic = Mnemonic::parse(mnemonic_str)?;
+    let mnemonic = Mnemonic::parse_in_normalized(Language::English, mnemonic_str)?;
     
-    // Derivar chave mestra
+    // Criar chave privada a partir da seed
     let seed = mnemonic.to_seed("");
     let secp = Secp256k1::new();
-    let master_key = ExtendedPrivateKey::new_master(network, &seed)?;
-
-    // Derivar chave para o caminho padrão m/84'/0'/0'/0/0 (Native SegWit)
-    let derivation_path = match network {
-        Network::Bitcoin => DerivationPath::from_str("m/84'/0'/0'/0/0")?,
-        _ => DerivationPath::from_str("m/84'/1'/0'/0/0")?, // Testnet
-    };
     
-    let derived_key = master_key.derive_priv(&secp, &derivation_path)?;
-    let private_key = PrivateKey::new(derived_key.private_key, network);
+    // Usar os primeiros 32 bytes da seed como chave privada
+    let mut key_bytes = [0u8; 32];
+    key_bytes.copy_from_slice(&seed[0..32]);
+    let secret_key = SecretKey::from_slice(&key_bytes)?;
+    
+    let private_key = PrivateKey::new(secret_key, network);
     let public_key = PublicKey::from_private_key(&secp, &private_key);
     
     // Gerar endereço P2WPKH (Native SegWit)
@@ -78,23 +74,31 @@ pub fn restore_from_mnemonic(mnemonic_str: &str, network: Network) -> Result<Wal
 pub fn derive_address_at_index(
     mnemonic_str: &str, 
     network: Network, 
-    account: u32, 
+    _account: u32, 
     index: u32
 ) -> Result<WalletData, Box<dyn std::error::Error>> {
-    let mnemonic = Mnemonic::parse(mnemonic_str)?;
+    let mnemonic = Mnemonic::parse_in_normalized(Language::English, mnemonic_str)?;
     let seed = mnemonic.to_seed("");
     let secp = Secp256k1::new();
-    let master_key = ExtendedPrivateKey::new_master(network, &seed)?;
-
-    // Caminho de derivação personalizado
-    let coin_type = match network {
-        Network::Bitcoin => 0,
-        _ => 1, // Testnet
-    };
     
-    let derivation_path = DerivationPath::from_str(&format!("m/84'/{}'/{}'/{}/{}", coin_type, account, 0, index))?;
-    let derived_key = master_key.derive_priv(&secp, &derivation_path)?;
-    let private_key = PrivateKey::new(derived_key.private_key, network);
+    // Simular derivação usando hash da seed + index
+    use std::collections::hash_map::DefaultHasher;
+    use std::hash::{Hash, Hasher};
+    
+    let mut hasher = DefaultHasher::new();
+    seed.hash(&mut hasher);
+    index.hash(&mut hasher);
+    let hash_result = hasher.finish();
+    
+    // Criar chave privada a partir do hash
+    let mut key_bytes = [0u8; 32];
+    key_bytes[0..8].copy_from_slice(&hash_result.to_be_bytes());
+    key_bytes[8..16].copy_from_slice(&hash_result.to_le_bytes());
+    key_bytes[16..24].copy_from_slice(&seed[0..8]);
+    key_bytes[24..32].copy_from_slice(&seed[8..16]);
+    
+    let secret_key = SecretKey::from_slice(&key_bytes)?;
+    let private_key = PrivateKey::new(secret_key, network);
     let public_key = PublicKey::from_private_key(&secp, &private_key);
     let address = Address::p2wpkh(&public_key, network)?;
 

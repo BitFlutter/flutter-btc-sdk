@@ -1,53 +1,69 @@
-#ifndef BITCOIN_SDK_H
-#define BITCOIN_SDK_H
+/* Bitcoin SDK FFI Header */
 
+#include <stdarg.h>
+#include <stdbool.h>
 #include <stdint.h>
+#include <stdlib.h>
+
+/**
+ * Estrutura para representar uma carteira Bitcoin
+ */
+typedef struct BitcoinWallet {
+  char *private_key;
+  char *public_key;
+  char *address;
+  char *mnemonic;
+} BitcoinWallet;
 
 #ifdef __cplusplus
-extern "C"
-{
-#endif
+extern "C" {
+#endif // __cplusplus
 
-    // Estrutura para representar uma carteira Bitcoin
-    typedef struct
-    {
-        char *private_key;
-        char *public_key;
-        char *address;
-        char *mnemonic;
-    } BitcoinWallet;
+/**
+ * Gera uma nova carteira Bitcoin com mnemônico
+ */
+struct BitcoinWallet *generate_wallet(int32_t network_type);
 
-    // Enums para tipos de rede
-    typedef enum
-    {
-        BITCOIN_MAINNET = 0,
-        BITCOIN_TESTNET = 1,
-        BITCOIN_SIGNET = 2,
-        BITCOIN_REGTEST = 3
-    } NetworkType;
+/**
+ * Restaura carteira a partir de mnemônico
+ */
+struct BitcoinWallet *restore_wallet_from_mnemonic(const char *mnemonic_str, int32_t network_type);
 
-    // Funções de carteira
-    BitcoinWallet *generate_wallet(int32_t network_type);
-    BitcoinWallet *restore_wallet_from_mnemonic(const char *mnemonic_str, int32_t network_type);
-    int32_t validate_mnemonic(const char *mnemonic_str);
-    int32_t validate_address(const char *address_str, int32_t network_type);
+/**
+ * Valida se um mnemônico é válido
+ */
+int32_t validate_mnemonic(const char *mnemonic_str);
 
-    // Funções de limpeza de memória
-    void free_wallet(BitcoinWallet *wallet);
-    void free_c_string(char *s);
+/**
+ * Valida se um endereço Bitcoin é válido
+ */
+int32_t validate_address(const char *address_str, int32_t network_type);
 
-    // Funções de utilidade
-    uint64_t btc_to_satoshis(double btc);
-    double satoshis_to_btc(uint64_t satoshis);
-    int32_t is_valid_amount(uint64_t satoshis);
+/**
+ * Converte BTC para satoshis
+ */
+uint64_t btc_to_satoshis(double btc);
 
-    // Funções de transação (para implementação futura)
-    // typedef struct TransactionInput TransactionInput;
-    // typedef struct TransactionOutput TransactionOutput;
-    // typedef struct UnsignedTransaction UnsignedTransaction;
+/**
+ * Converte satoshis para BTC
+ */
+double satoshis_to_btc(uint64_t satoshis);
+
+/**
+ * Verifica se um valor em satoshis é válido
+ */
+int32_t is_valid_amount(uint64_t satoshis);
+
+/**
+ * Libera memória alocada para a carteira
+ */
+void free_wallet(struct BitcoinWallet *wallet);
+
+/**
+ * Libera string C
+ */
+void free_c_string(char *s);
 
 #ifdef __cplusplus
-}
-#endif
-
-#endif // BITCOIN_SDK_H
+} // extern "C"
+#endif // __cplusplus

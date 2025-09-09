@@ -2,8 +2,9 @@ use bitcoin::{
     Network, PrivateKey, PublicKey, Address, Transaction, TxIn, TxOut, OutPoint, Txid,
     absolute::LockTime, Sequence, Witness, ScriptBuf, Amount
 };
-use bitcoin::secp256k1::{Secp256k1, Message, SecretKey};
+use bitcoin::secp256k1::{Secp256k1, Message};
 use bitcoin::sighash::{SighashCache, EcdsaSighashType};
+use bitcoin::bitcoin_hashes::Hash;
 use std::str::FromStr;
 
 #[derive(Debug)]
@@ -100,8 +101,8 @@ pub fn sign_transaction(
             EcdsaSighashType::All,
         )?;
 
-        // Assinar
-        let message = Message::from_digest_slice(sighash.as_byte_array())?;
+        // Assinar - usar to_byte_array() em vez de as_byte_array()
+        let message = Message::from_digest_slice(sighash.to_byte_array().as_slice())?;
         let signature = secp.sign_ecdsa(&message, &private_key.inner);
         let mut signature_bytes = signature.serialize_der().to_vec();
         signature_bytes.push(EcdsaSighashType::All as u8);
